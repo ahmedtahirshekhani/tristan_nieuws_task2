@@ -5,11 +5,19 @@
   <title>Woordzoeker Nieuws.nl</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #141e30, #243b55);
       color: #fff;
-      min-height: 100vh;
+      min-height: 80vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -17,30 +25,38 @@
       text-align: center;
     }
     .woordzoeker-wrapper {
-      max-width: 760px;
-      margin: 60px auto;
-      border-radius: 20px;
-      padding: 40px 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 800px;
       text-align: center;
+      margin: auto;
     }
 
     /* --- Intro-scherm --- */
     #woordzoeker-intro-screen {
       display: block;
     }
-    #woordzoeker-intro-screen h1,
+    #woordzoeker-intro-screen h1 {
+      font-family: 'Bungee Tint', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 10px 0;
+      color: #ff4c4c;
+    }
     #woordzoeker-intro-screen p {
       color: #fff;
+      
     }
     #woordzoeker-btn-start {
-      background: #d71920;
-      color: #fff;
+      padding: 14px 28px;
       font-size: 18px;
-      padding: 15px 30px;
+      background: #ff4c4c;
       border: none;
-      border-radius: 8px;
+      color: #fff;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      transition: background 0.3s ease;
+      margin-top: 20px;
     }
     #woordzoeker-btn-start:hover {
       background: #e03131;
@@ -69,10 +85,11 @@
     }
     .woordzoeker-topbar h2 {
       flex: 1;
-      text-align: center;
-      margin: 0;
-      font-size: 24px;
-      color: #fff;
+      font-family: 'Bungee Tint', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 10px 0;
+      color: #ff4c4c;
     }
     .woordzoeker-btn {
       border: none;
@@ -87,11 +104,11 @@
       transform: scale(1.05);
     }
     #woordzoeker-hint-btn {
-      background: #d71920;
+      background: #ff4c4c;
       color: #fff;
     }
     #woordzoeker-restart-btn {
-      background: #d71920;
+      background: #ff4c4c;
       color: #fff;
       font-size: 16px;
       padding: 12px 20px;
@@ -99,7 +116,7 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
-      margin-top: 20px;
+ 
     }
     #woordzoeker-restart-btn:hover {
       background: #e03131;
@@ -115,13 +132,13 @@
       display: grid;
       grid-template-columns: repeat(11, 40px);
       grid-template-rows: repeat(11, 40px);
-      gap: 5px;
+      gap: 0px;
       justify-content: center;
       margin-bottom: 20px;
     }
     .woordzoeker-letter-cell {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,11 +164,11 @@
     }
     .woordzoeker-found {
       text-decoration: line-through;
-      color: #d71920;
+      color: #ff4c4c;
     }
-    .woordzoeker-word-list-container {
+    /* .woordzoeker-word-list-container {
       min-width: 180px;
-    }
+    } */
     .woordzoeker-word-list {
       list-style: none;
       padding: 0;
@@ -163,7 +180,7 @@
       font-size: 15px;
     }
     .woordzoeker-word-list li b {
-      color: #d71920;
+      color: #ff4c4c;
       font-weight: bold;
     }
 
@@ -193,12 +210,12 @@
       text-align: left;
     }
     #woordzoeker-end-summary th {
-      background: #d71920;
+      background: #ff4c4c;
       color: #fff;
       font-weight: bold;
     }
     #woordzoeker-btn-newgame {
-      background: #d71920;
+      background: #ff4c4c;
       color: #fff;
       font-size: 18px;
       padding: 15px 30px;
@@ -224,12 +241,24 @@
       left: 20px;
       justify-content: flex-start;
     }
+    .quiz-title-line {
+  width: 100px;
+  height: 4px;
+  background: #fff;
+  margin: 0 auto 20px auto;
+  border-radius: 2px;
+}
+
+
+
 
   @media (max-width: 600px) {
+    body {
+    padding: 10px;
+  }
   
     .woordzoeker-wrapper {
-    padding: 20px 10px;
-    margin: 20px auto;
+      padding: 20px;
   }
 
   .woordzoeker-topbar {
@@ -240,6 +269,8 @@
 
   .woordzoeker-topbar h2 {
     font-size: 18px;
+    font-family: 'Bungee Tint', cursive;
+
   }
 
   .woordzoeker-grid {
@@ -264,8 +295,8 @@
   #woordzoeker-btn-newgame,
   #woordzoeker-restart-btn,
   .woordzoeker-btn {
-    font-size: 14px;
-    padding: 10px 20px;
+    font-size: 16px;
+    padding: 12px 20px;
   }
 
   #woordzoeker-end-summary {
@@ -283,26 +314,26 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .woordzoeker-grid {
     grid-template-columns: repeat(11, minmax(20px, 1fr));
     gap: 2px;
   }
 
   .woordzoeker-letter-cell {
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 30px;
   }
 
   #woordzoeker-btn-start,
   #woordzoeker-btn-newgame,
   #woordzoeker-restart-btn {
-    font-size: 12px;
-    padding: 8px 16px;
+    font-size: 16px;
+    padding: 12px 20px;
   }
 
   .woordzoeker-word-list li {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   #logo {
@@ -320,7 +351,8 @@
     <div id="woordzoeker-intro-screen">
      
       <h1>Woordzoeker</h1>
-      <p>Vind alle woorden die met nieuws en actualiteiten te maken hebben, scoor zo veel mogelijk punten en verbeter je tijdrecord!</p>
+      <div class="quiz-title-line" id="title-line"></div>
+      <p>Vind alle woorden in onze Nieuws.nl-woordzoeker!</p>
       <button id="woordzoeker-btn-start">Start spel</button>
     </div>
 
@@ -339,6 +371,9 @@
         <div id="woordzoeker-grid" class="woordzoeker-grid"></div>
         <div class="woordzoeker-word-list-container">
           <ul id="woordzoeker-word-list" class="woordzoeker-word-list"></ul>
+        </div>
+        <div class="woordzoeker-word-list-container-mobile">
+          <ul id="woordzoeker-word-list-mobile" class="woordzoeker-word-list-mobile"></ul>
         </div>
       </div>
       <div style="text-align: center;">
@@ -550,21 +585,33 @@
       function buildWordList() {
         wordList.innerHTML = "";
         totalMaxPoints = 0;
-
+        const isMobileView = window.matchMedia("(max-width: 600px)").matches;
         Object.entries(selectedWords).forEach(([label, words]) => {
           const labelItem = document.createElement("li");
           labelItem.innerHTML = `<b>${label}</b>`;
           wordList.appendChild(labelItem);
 
           const pts = parseInt(label.match(/\d+/)[0]) || 0;
-          words.forEach(w => {
-            const li = document.createElement("li");
-            li.textContent = w;
-            li.dataset.word = w;
-            li.dataset.points = pts;
-            wordList.appendChild(li);
-            totalMaxPoints += pts;
-          });
+          if (isMobileView) {
+              // Mobile: Show words in one comma-separated <li>
+              const li = document.createElement("li");
+              li.textContent = words.join(", ");
+              li.dataset.points = pts;
+              wordList.appendChild(li);
+
+              // Update points
+              totalMaxPoints += words.length * pts;
+            } else {
+              // Desktop: Show words one per <li>
+              words.forEach(w => {
+                const li = document.createElement("li");
+                li.textContent = w;
+                li.dataset.word = w;
+                li.dataset.points = pts;
+                wordList.appendChild(li);
+                totalMaxPoints += pts;
+              });
+            }
         });
       }
 
