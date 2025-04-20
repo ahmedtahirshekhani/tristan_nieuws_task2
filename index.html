@@ -259,11 +259,14 @@
     .woordzoeker-wrapper {
       padding: 20px;
   }
+  .woordzoeker-game-container{
+    display: block;
+  }
 
   .woordzoeker-topbar {
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    margin: 10px;
   }
 
   .woordzoeker-topbar h2 {
@@ -274,7 +277,7 @@
 
   .woordzoeker-grid {
     grid-template-columns: repeat(11, minmax(24px, 1fr));
-    gap: 3px;
+    gap: 1px;
   }
 
   .woordzoeker-letter-cell {
@@ -311,34 +314,14 @@
   #logo {
     height: 28px;
   }
+  .woordzoeker-letter-cell {
+    width: 100%;
+    height: 98%;
+  }
+
 }
 
-@media (max-width: 500px) {
-  .woordzoeker-grid {
-    grid-template-columns: repeat(11, minmax(20px, 1fr));
-    gap: 2px;
-  }
 
-  .woordzoeker-letter-cell {
-    width: 28px;
-    height: 30px;
-  }
-
-  #woordzoeker-btn-start,
-  #woordzoeker-btn-newgame,
-  #woordzoeker-restart-btn {
-    font-size: 16px;
-    padding: 12px 20px;
-  }
-
-  .woordzoeker-word-list li {
-    font-size: 14px;
-  }
-
-  #logo {
-    height: 20px;
-  }
-  }
   </style>
 </head>
 <body>
@@ -680,6 +663,7 @@
       function startGame() {
         document.getElementById("header").classList.add("top-left");
         document.getElementById("logo").style.display = 'block';
+        document.getElementById("logo").style.height = '20px';
         console.log("Start game");
 
         // Reset state
@@ -735,6 +719,7 @@
         introScreen.style.display = "none";
         endScreen.style.display = "none";
         gameScreen.style.display = "block";
+
 
         startTimer();
       }
