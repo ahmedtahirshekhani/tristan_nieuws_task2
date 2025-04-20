@@ -663,7 +663,11 @@
       function startGame() {
         document.getElementById("header").classList.add("top-left");
         document.getElementById("logo").style.display = 'block';
-        document.getElementById("logo").style.height = '20px';
+        // if screen width <600px
+        if (window.innerWidth < 600) {
+          document.getElementById("logo").style.height = '20px';        
+        }
+
         console.log("Start game");
 
         // Reset state
