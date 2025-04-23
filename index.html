@@ -322,6 +322,8 @@
 }
 
 
+
+
   </style>
 </head>
 <body>
@@ -573,15 +575,26 @@
           wordList.appendChild(labelItem);
 
           const pts = parseInt(label.match(/\d+/)[0]) || 0;
+          
           if (isMobileView) {
+              wordList.style.listStyle = "none";
+              wordList.style.padding = "0";
+              wordList.style.margin = "0";  
               // Mobile: Show words in one comma-separated <li>
-              const li = document.createElement("li");
-              li.textContent = words.join(", ");
-              li.dataset.points = pts;
-              wordList.appendChild(li);
-
-              // Update points
-              totalMaxPoints += words.length * pts;
+                words.forEach(word => {
+                const li = document.createElement("li");
+                li.textContent = word;
+                li.dataset.word = word;
+                li.dataset.points = pts;
+                
+                // Make li inline
+                li.style.display = "inline";
+                li.style.marginRight = "8px"; // optional spacing
+                
+                wordList.appendChild(li);
+                totalMaxPoints += pts;
+              });
+              
             } else {
               // Desktop: Show words one per <li>
               words.forEach(w => {
@@ -621,6 +634,8 @@
           const allHighlighted = pos.every(i => cellElements[i].classList.contains("woordzoeker-highlight"));
           const li = wordList.querySelector(`li[data-word='${word}']`);
           if (allHighlighted && !foundWords.has(word)) {
+            console.log(`Found: ${word}`);
+            console.log(li)
             li.classList.add("woordzoeker-found");
             foundWords.add(word);
             score += parseInt(li.dataset.points);
