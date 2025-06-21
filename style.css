@@ -1,0 +1,322 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+.woordzoeker-wrapper {
+  padding: 30px 40px;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin: 0px auto;
+}
+
+/* --- Intro-scherm --- */
+#woordzoeker-intro-screen {
+  display: block;
+}
+#woordzoeker-intro-screen h1 {
+  font-family: "Bungee Tint", cursive;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 10px 0;
+  color: #ff4c4c;
+}
+#woordzoeker-intro-screen p {
+  color: #fff;
+}
+#woordzoeker-btn-start {
+  padding: 14px 28px;
+  font-size: 18px;
+  background: #ff4c4c;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 20px;
+}
+#woordzoeker-btn-start:hover {
+  background: #e03131;
+  transform: scale(1.05);
+}
+
+/* --- Game-scherm --- */
+#woordzoeker-game-screen {
+  display: none;
+}
+.woordzoeker-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.woordzoeker-topbar .score {
+  font-weight: bold;
+  font-size: 16px;
+}
+.woordzoeker-topbar .timer {
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 15px;
+}
+.woordzoeker-topbar h2 {
+  flex: 1;
+  font-family: "Bungee Tint", cursive;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 10px 0;
+  color: #ff4c4c;
+}
+.woordzoeker-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: background 0.3s, transform 0.2s;
+}
+.woordzoeker-btn:hover {
+  transform: scale(1.05);
+}
+#woordzoeker-hint-btn {
+  background: #ff4c4c;
+  color: #fff;
+}
+#woordzoeker-restart-btn {
+  background: #ff4c4c;
+  color: #fff;
+  font-size: 16px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+#woordzoeker-restart-btn:hover {
+  background: #e03131;
+  transform: scale(1.05);
+}
+.woordzoeker-game-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.woordzoeker-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 40px);
+  grid-template-rows: repeat(11, 40px);
+  gap: 0px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.woordzoeker-letter-cell {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: #f0f0f0; /* Light background */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  user-select: none;
+  color: #222; /* Dark text */
+}
+.woordzoeker-letter-cell:hover {
+  transform: scale(1.1);
+  background: #e0e0e0; /* Slightly darker on hover */
+}
+.woordzoeker-highlight {
+  background: red !important; /* Dark highlight */
+  color: #fff !important; /* Light text for contrast */
+}
+.woordzoeker-hint {
+  box-shadow: 0 0 4px 2px red;
+  border-radius: 4px;
+}
+.woordzoeker-found {
+  text-decoration: line-through;
+  color: #ff4c4c;
+}
+/* .woordzoeker-word-list-container {
+      min-width: 180px;
+    } */
+.woordzoeker-word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+.woordzoeker-word-list li {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+.woordzoeker-word-list li b {
+  color: #ff4c4c;
+  font-weight: bold;
+}
+
+/* --- Eindscherm --- */
+#woordzoeker-end-screen {
+  display: none; /* Verborgen totdat het spel klaar is */
+}
+#woordzoeker-end-screen h2,
+#woordzoeker-end-screen p {
+  color: #fff;
+}
+#woordzoeker-end-summary {
+  margin-top: 20px;
+  display: inline-block;
+  padding: 20px;
+
+  border-radius: 12px;
+}
+#woordzoeker-end-summary table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+#woordzoeker-end-summary th,
+#woordzoeker-end-summary td {
+  border: 3px solid #fff; /* Dikkere lijnen */
+  padding: 15px 20px;
+  text-align: left;
+}
+#woordzoeker-end-summary th {
+  background: #ff4c4c;
+  color: #fff;
+  font-weight: bold;
+}
+#woordzoeker-btn-newgame {
+  background: #ff4c4c;
+  color: #fff;
+  font-size: 18px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#woordzoeker-btn-newgame:hover {
+  background: #e03131;
+  transform: scale(1.05);
+}
+#logo {
+  height: 40px;
+}
+#header.top-left {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  justify-content: flex-start;
+}
+.quiz-title-line {
+  width: 100px;
+  height: 4px;
+  background: #fff;
+  margin: 0 auto 20px auto;
+  border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .woordzoeker-wrapper {
+    padding: 20px;
+  }
+  .woordzoeker-game-container {
+    display: block;
+  }
+
+  .woordzoeker-topbar {
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+  }
+
+  .woordzoeker-topbar h2 {
+    font-size: 18px;
+    font-family: "Bungee Tint", cursive;
+  }
+
+  .woordzoeker-grid {
+    grid-template-columns: repeat(11, minmax(24px, 1fr));
+    gap: 1px;
+  }
+
+  .woordzoeker-letter-cell {
+    font-size: 12px;
+  }
+
+  .woordzoeker-word-list-container {
+    width: 100%;
+    max-width: none;
+  }
+
+  .woordzoeker-word-list li {
+    font-size: 14px;
+  }
+
+  #woordzoeker-btn-start,
+  #woordzoeker-btn-newgame,
+  #woordzoeker-restart-btn,
+  .woordzoeker-btn {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  #woordzoeker-end-summary {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  #woordzoeker-end-summary table {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  #logo {
+    height: 28px;
+  }
+  .woordzoeker-letter-cell {
+    width: 100%;
+    height: 98%;
+  }
+}
+
+/* Add a different style for cells being dragged */
+.woordzoeker-dragging {
+  opacity: 0.7;
+}
+
+/* Highlight the cell when hovered over during drag */
+.woordzoeker-hover {
+  opacity: 0.7;
+}
+.woordzoeker-locked {
+  background-color: #e03131;
+  color: white; /* Make text white to stand out on dark blue */
+}

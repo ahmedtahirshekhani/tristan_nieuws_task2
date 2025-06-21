@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Woordzoeker Nieuws.nl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .woordzoeker-wrapper {
+      padding: 30px 40px;
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      margin: 0px auto;
+    }
+
+    /* --- Intro-scherm --- */
+    #woordzoeker-intro-screen {
+      display: block;
+    }
+    #woordzoeker-intro-screen h1 {
+      font-family: 'Bungee Tint', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 10px 0;
+      color: #ff4c4c;
+    }
+    #woordzoeker-intro-screen p {
+      color: #fff;
+      
+    }
+    #woordzoeker-btn-start {
+      padding: 14px 28px;
+      font-size: 18px;
+      background: #ff4c4c;
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
+    #woordzoeker-btn-start:hover {
+      background: #e03131;
+      transform: scale(1.05);
+    }
+
+    /* --- Game-scherm --- */
+    #woordzoeker-game-screen {
+      display: none;
+    }
+    .woordzoeker-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .woordzoeker-topbar .score {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .woordzoeker-topbar .timer {
+      font-weight: bold;
+      font-size: 16px;
+      margin-left: 15px;
+    }
+    .woordzoeker-topbar h2 {
+      flex: 1;
+      font-family: 'Bungee Tint', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 10px 0;
+      color: #ff4c4c;
+    }
+    .woordzoeker-btn {
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-left: 5px;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .woordzoeker-btn:hover {
+      transform: scale(1.05);
+    }
+    #woordzoeker-hint-btn {
+      background: #ff4c4c;
+      color: #fff;
+    }
+    #woordzoeker-restart-btn {
+      background: #ff4c4c;
+      color: #fff;
+      font-size: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+ 
+    }
+    #woordzoeker-restart-btn:hover {
+      background: #e03131;
+      transform: scale(1.05);
+    }
+    .woordzoeker-game-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .woordzoeker-grid {
+      display: grid;
+      grid-template-columns: repeat(11, 40px);
+      grid-template-rows: repeat(11, 40px);
+      gap: 0px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .woordzoeker-letter-cell {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: #f0f0f0; /* Light background */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  user-select: none;
+  color: #222; /* Dark text */
+}
+    .woordzoeker-letter-cell:hover {
+      transform: scale(1.1);
+      background: #e0e0e0; /* Slightly darker on hover */
+    }
+    .woordzoeker-highlight {
+      background: red !important; /* Dark highlight */
+      color: #fff !important;       /* Light text for contrast */
+    }
+    .woordzoeker-hint {
+      box-shadow: 0 0 4px 2px red;
+      border-radius: 4px;
+    }
+    .woordzoeker-found {
+      text-decoration: line-through;
+      color: #ff4c4c;
+    }
+    /* .woordzoeker-word-list-container {
+      min-width: 180px;
+    } */
+    .woordzoeker-word-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+    .woordzoeker-word-list li {
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+    .woordzoeker-word-list li b {
+      color: #ff4c4c;
+      font-weight: bold;
+    }
+
+    /* --- Eindscherm --- */
+    #woordzoeker-end-screen {
+      display: none; /* Verborgen totdat het spel klaar is */
+    }
+    #woordzoeker-end-screen h2,
+    #woordzoeker-end-screen p {
+      color: #fff;
+    }
+    #woordzoeker-end-summary {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 20px;
+     
+      border-radius: 12px;
+    }
+    #woordzoeker-end-summary table {
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    #woordzoeker-end-summary th, 
+    #woordzoeker-end-summary td {
+      border: 3px solid #fff; /* Dikkere lijnen */
+      padding: 15px 20px;
+      text-align: left;
+    }
+    #woordzoeker-end-summary th {
+      background: #ff4c4c;
+      color: #fff;
+      font-weight: bold;
+    }
+    #woordzoeker-btn-newgame {
+      background: #ff4c4c;
+      color: #fff;
+      font-size: 18px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #woordzoeker-btn-newgame:hover {
+      background: #e03131;
+      transform: scale(1.05);
+    }
+    #logo{
+    height: 40px;
+  }
+  #header.top-left {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      justify-content: flex-start;
+    }
+    .quiz-title-line {
+  width: 100px;
+  height: 4px;
+  background: #fff;
+  margin: 0 auto 20px auto;
+  border-radius: 2px;
+}
+
+
+
+
+  @media (max-width: 600px) {
+    body {
+    padding: 10px;
+  }
+  
+    .woordzoeker-wrapper {
+      padding: 20px;
+  }
+  .woordzoeker-game-container{
+    display: block;
+  }
+
+  .woordzoeker-topbar {
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+  }
+
+  .woordzoeker-topbar h2 {
+    font-size: 18px;
+    font-family: 'Bungee Tint', cursive;
+
+  }
+
+  .woordzoeker-grid {
+    grid-template-columns: repeat(11, minmax(24px, 1fr));
+    gap: 1px;
+  }
+
+  .woordzoeker-letter-cell {
+    font-size: 12px;
+  }
+
+  .woordzoeker-word-list-container {
+    width: 100%;
+    max-width: none;
+  }
+
+  .woordzoeker-word-list li {
+    font-size: 14px;
+  }
+
+  #woordzoeker-btn-start,
+  #woordzoeker-btn-newgame,
+  #woordzoeker-restart-btn,
+  .woordzoeker-btn {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  #woordzoeker-end-summary {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  #woordzoeker-end-summary table {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  #logo {
+    height: 28px;
+  }
+  .woordzoeker-letter-cell {
+    width: 100%;
+    height: 98%;
+  }
+
+}
+
+
+
+
+  </style>
+</head>
+<body>
+  <div class="woordzoeker-wrapper">
+    <div id="header">
+      <img src="niewwsnl_logo_w.png" alt="Logo" id="logo">
+    </div>
+    <!-- Intro-scherm -->
+    <div id="woordzoeker-intro-screen">
+     
+      <h1>Woordzoeker</h1>
+      <div class="quiz-title-line" id="title-line"></div>
+      <p>Vind alle woorden in onze Nieuws.nl-woordzoeker!</p>
+      <button id="woordzoeker-btn-start">Start spel</button>
+    </div>
+
+    <!-- Game-scherm -->
+    <div id="woordzoeker-game-screen">
+      <div class="woordzoeker-topbar">
+        <div class="score" id="woordzoeker-score">Score: 0</div>
+        <h2>Woordzoeker</h2>
+        <!-- Timer naast de hintknop -->
+        <div>
+          <span class="timer" id="woordzoeker-timer">Tijd: 0s</span>
+          <button id="woordzoeker-hint-btn" class="woordzoeker-btn">Hint (3/3)</button>
+        </div>
+      </div>
+      <div class="woordzoeker-game-container">
+        <div id="woordzoeker-grid" class="woordzoeker-grid"></div>
+        <div class="woordzoeker-word-list-container">
+          <ul id="woordzoeker-word-list" class="woordzoeker-word-list"></ul>
+          <div style="text-align: center; margin-top: 20px;">
+            <button id="woordzoeker-restart-btn">Speel opnieuw</button>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    <!-- Eindscherm -->
+    <div id="woordzoeker-end-screen">
+      <h2>Goed gedaan!</h2>
+      <div id="woordzoeker-end-summary">
+        <table>
+          <tr>
+            <th>Aantal gevonden woorden</th>
+            <td id="end-found-words"></td>
+          </tr>
+          <tr>
+            <th>Eindscore</th>
+            <td id="end-score"></td>
+          </tr>
+          <tr>
+            <th>Totale tijd</th>
+            <td id="end-time"></td>
+          </tr>
+          <tr>
+            <th>Maximale punten</th>
+            <td id="end-max-points"></td>
+          </tr>
+        </table>
+        <button id="woordzoeker-btn-newgame">Speel opnieuw</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      /* -------------------------------------------------------------
+         1) Woordenlijsten
+         ------------------------------------------------------------- */
+      const wordPool = {
+        'Makkelijk - 10 punten': [
+          'WEER','SPORT','ZON','REGIO','NIEUWS','PAGINA','FOTO','TIP','WEDSTRIJD','VERSLAG',
+          'WEEK','DAG','RUBRIEK','FEIT','KORT','KRANT','MELDING','ONLINE','LOKAAL','BRIEF',
+          'BLOG','SITE','VIDEO','LINK','ZOEK','GERUCHT','NOTITIE','LEZER','PERS','NIEUWSFEED'
+        ],
+        'Gemiddeld - 20 punten': [
+          'JOURNAAL','OMROEP','NATIONAAL','RAPPORT','ANALYSE','DEBAT','THEMA','OPINIE','SCOOP',
+          'BUITENLAND','INFORMATIE','ACTUEEL','KANAAL','REACTIE','STUDIE','MEDIA','ANALIST','PLATFORM','EDITIE',
+          'PODCAST','DOCUMENT','FACTCHECK','CENSUUR','STATEMENT','PUBLICIST','MAGAZINE','ESSAY','TENDENS','EDITORIAL'
+        ],
+        'Moeilijk - 30 punten': [
+          'REDACTIE','EXCLUSIEF','RECHTSZAAK','PARLEMENT','ONDERZOEK','AMBASSADE','MINISTER','STATISTIEK','COMMENTAAR',
+          'PROPAGANDA','DIPLOMAAT','POLITIEK','PUBLICATIE','EVACUATIE','PRESIDENT','REFERENDUM','COALITIE','SENSATIE',
+          'JOURNALIST','SANCTIES','SCHANDAAL','VERKLARING','INFLATIE','OPPOSITIE','REVOLUTIE','STEMRECHT','MIGRATIE',
+          'DISCUSSIE','BESLUITEN','VERKIEZING'
+        ]
+      };
+
+      // Standaard 4 woorden per niveau
+      const pickRandomWords = (list, n) => list.sort(() => 0.5 - Math.random()).slice(0, n);
+
+
+      /* -------------------------------------------------------------
+         2) Config & variabelen
+         ------------------------------------------------------------- */
+      const GRID_SIZE = 11; // 11×11
+      const directions = [
+        [0, 1],  [0, -1], 
+        [1, 0],  [-1, 0], 
+        [1, 1],  [1, -1],
+        [-1, 1], [-1, -1]
+      ];
+
+      let puzzle = [];
+      let cellElements = [];
+      let wordPositionsMap = {}; // {woord: [posities], ...}
+      let foundWords = new Set();
+
+      let score = 0;
+      let hintsLeft = 3;
+      let selectedWords = {};
+
+      // Timer
+      let timerInterval = null;
+      let startTime = 0;
+
+      // Resultaten
+      let totalWordsCount = 0;
+      let totalMaxPoints = 0;
+
+
+      /* -------------------------------------------------------------
+         3) DOM-elementen
+         ------------------------------------------------------------- */
+      const introScreen = document.getElementById("woordzoeker-intro-screen");
+      const gameScreen = document.getElementById("woordzoeker-game-screen");
+      const endScreen = document.getElementById("woordzoeker-end-screen");
+
+      const grid = document.getElementById("woordzoeker-grid");
+      const wordList = document.getElementById("woordzoeker-word-list");
+      const scoreDisplay = document.getElementById("woordzoeker-score");
+      const hintBtn = document.getElementById("woordzoeker-hint-btn");
+      const startBtn = document.getElementById("woordzoeker-btn-start");
+      const restartBtn = document.getElementById("woordzoeker-restart-btn");
+      const newGameBtn = document.getElementById("woordzoeker-btn-newgame");
+
+      const timerDisplay = document.getElementById("woordzoeker-timer");
+      const endFoundWords = document.getElementById("end-found-words");
+      const endScore = document.getElementById("end-score");
+      const endTime = document.getElementById("end-time");
+      const endMaxPoints = document.getElementById("end-max-points");
+
+
+      /* -------------------------------------------------------------
+         4) Hulpfuncties
+         ------------------------------------------------------------- */
+      // Update score
+      function updateScore() {
+        scoreDisplay.textContent = `Score: ${score}`;
+      }
+
+      // Update hintknop
+      function updateHintButton() {
+        hintBtn.textContent = `Hint (${hintsLeft}/3)`;
+        hintBtn.disabled = (hintsLeft === 0);
+      }
+
+      // Lege grid genereren
+      function generateEmptyGrid() {
+        return Array(GRID_SIZE * GRID_SIZE).fill(" ");
+      }
+
+      // Plaats 1 woord
+      // - 500 pogingen
+      function placeWord(grid, word) {
+        for (let attempt = 0; attempt < 500; attempt++) {
+          const [dr, dc] = directions[Math.floor(Math.random() * directions.length)];
+          const startRow = Math.floor(Math.random() * GRID_SIZE);
+          const startCol = Math.floor(Math.random() * GRID_SIZE);
+
+          let fits = true;
+          const positions = [];
+
+          for (let i = 0; i < word.length; i++) {
+            const rr = startRow + i * dr;
+            const cc = startCol + i * dc;
+            if (rr < 0 || rr >= GRID_SIZE || cc < 0 || cc >= GRID_SIZE) {
+              fits = false;
+              break;
+            }
+            const idx = rr * GRID_SIZE + cc;
+            if (grid[idx] !== " " && grid[idx] !== word[i]) {
+              fits = false;
+              break;
+            }
+            positions.push(idx);
+          }
+          if (fits) {
+            // Plaats in de puzzle
+            positions.forEach((p, i) => grid[p] = word[i]);
+            return positions;
+          }
+        }
+        return null; // niet gelukt
+      }
+
+      // Plaats *alle* woorden (lang->kort) in grid
+      function placeAllWords(allWords, grid, map) {
+        // Sorteren op lengte: langste eerst
+        allWords.sort((a, b) => b.length - a.length);
+        for (const w of allWords) {
+          const pos = placeWord(grid, w);
+          if (!pos) {
+            return false; // kon niet alle woorden plaatsen
+          }
+          map[w] = pos;
+        }
+        return true;
+      }
+
+      // Vul grid-gaten met random letters
+      function fillGridRandom(grid) {
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (let i = 0; i < grid.length; i++) {
+          if (grid[i] === " ") {
+            grid[i] = letters[Math.floor(Math.random() * letters.length)];
+          }
+        }
+      }
+
+      // Bouw de DOM-grid
+      function createGrid() {
+        grid.innerHTML = "";
+        cellElements = [];
+        for (let i = 0; i < puzzle.length; i++) {
+          const cell = document.createElement("div");
+          cell.className = "woordzoeker-letter-cell";
+          cell.textContent = puzzle[i];
+          cell.addEventListener("click", () => {
+            cell.classList.toggle("woordzoeker-highlight");
+            checkWords();
+          });
+          grid.appendChild(cell);
+          cellElements.push(cell);
+        }
+      }
+
+      // Woordlijst + max punten
+      function buildWordList() {
+        wordList.innerHTML = "";
+        totalMaxPoints = 0;
+        const isMobileView = window.matchMedia("(max-width: 600px)").matches;
+        Object.entries(selectedWords).forEach(([label, words]) => {
+          const labelItem = document.createElement("li");
+          labelItem.innerHTML = `<b>${label}</b>`;
+          wordList.appendChild(labelItem);
+
+          const pts = parseInt(label.match(/\d+/)[0]) || 0;
+          
+          if (isMobileView) {
+              wordList.style.listStyle = "none";
+              wordList.style.padding = "0";
+              wordList.style.margin = "0";  
+              // Mobile: Show words in one comma-separated <li>
+                words.forEach(word => {
+                const li = document.createElement("li");
+                li.textContent = word;
+                li.dataset.word = word;
+                li.dataset.points = pts;
+                
+                // Make li inline
+                li.style.display = "inline";
+                li.style.marginRight = "8px"; // optional spacing
+                
+                wordList.appendChild(li);
+                totalMaxPoints += pts;
+              });
+              
+            } else {
+              // Desktop: Show words one per <li>
+              words.forEach(w => {
+                const li = document.createElement("li");
+                li.textContent = w;
+                li.dataset.word = w;
+                li.dataset.points = pts;
+                wordList.appendChild(li);
+                totalMaxPoints += pts;
+              });
+            }
+        });
+      }
+
+      // Aantal diagonale woorden tellen (optioneel)
+      function countDiagonalWords(map) {
+        let count = 0;
+        for (const [word, positions] of Object.entries(map)) {
+          if (positions.length <= 1) continue;
+          // Check direction op basis van 1e en 2e letter
+          const i1 = positions[0], i2 = positions[1];
+          const r1 = Math.floor(i1 / GRID_SIZE), c1 = i1 % GRID_SIZE;
+          const r2 = Math.floor(i2 / GRID_SIZE), c2 = i2 % GRID_SIZE;
+          const dr = r2 - r1, dc = c2 - c1;
+          if (dr !== 0 && dc !== 0) {
+            count++;
+          }
+        }
+        return count;
+      }
+
+      // Check welke woorden gevonden zijn
+      function checkWords() {
+        Object.entries(selectedWords).flatMap(e => e[1]).forEach(word => {
+          const pos = wordPositionsMap[word];
+          if (!pos) return;
+          const allHighlighted = pos.every(i => cellElements[i].classList.contains("woordzoeker-highlight"));
+          const li = wordList.querySelector(`li[data-word='${word}']`);
+          if (allHighlighted && !foundWords.has(word)) {
+            console.log(`Found: ${word}`);
+            console.log(li)
+            li.classList.add("woordzoeker-found");
+            foundWords.add(word);
+            score += parseInt(li.dataset.points);
+            updateScore();
+          } else if (!allHighlighted && foundWords.has(word)) {
+            li.classList.remove("woordzoeker-found");
+            foundWords.delete(word);
+            score -= parseInt(li.dataset.points);
+            updateScore();
+          }
+        });
+
+        if (foundWords.size === totalWordsCount) {
+          setTimeout(endGame, 600);
+        }
+      }
+
+
+      /* -------------------------------------------------------------
+         5) Timer
+         ------------------------------------------------------------- */
+      function startTimer() {
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+          const elapsedMs = Date.now() - startTime;
+          const seconds = Math.floor(elapsedMs / 1000);
+          timerDisplay.textContent = `Tijd: ${seconds}s`;
+        }, 1000);
+      }
+
+      function stopTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+
+
+      /* -------------------------------------------------------------
+         6) Hoofd-Logica (startGame, endGame, etc.)
+         ------------------------------------------------------------- */
+      function startGame() {
+        document.getElementById("header").classList.add("top-left");
+        document.getElementById("logo").style.display = 'block';
+        // if screen width <600px
+        if (window.innerWidth < 600) {
+          document.getElementById("logo").style.height = '20px';        
+        }
+
+
+        // Reset state
+        foundWords.clear();
+        score = 0;
+        hintsLeft = 3;
+        updateScore();
+        updateHintButton();
+
+        // Per niveau 4 woorden
+        selectedWords = {};
+        Object.entries(wordPool).forEach(([label, list]) => {
+          selectedWords[label] = pickRandomWords(list, 4);
+        });
+        const allWords = Object.values(selectedWords).flat();
+        totalWordsCount = allWords.length;
+
+        let attemptCount = 0;
+        let puzzleReady = false;
+
+        // Tot 500 pogingen om *alle* woorden te plaatsen en (optioneel) >=2 diagonalen
+        while (!puzzleReady && attemptCount < 500) {
+          attemptCount++;
+          puzzle = generateEmptyGrid();
+          wordPositionsMap = {};
+
+          // Woorden plaatsen
+          let placedAll = placeAllWords(allWords, puzzle, wordPositionsMap);
+          if (!placedAll) continue; // woorden pasten niet -> volgende poging
+
+          // Vul random letters
+          fillGridRandom(puzzle);
+
+          // (Als je wilt) check 2 diagonale
+          let diagCount = countDiagonalWords(wordPositionsMap);
+          if (diagCount < 2) {
+            // Als je per se 2 diagonale wilt, skip deze puzzle
+            // Anders kun je deze check uitschakelen:
+            continue;
+          }
+
+          // Nu is puzzle “klaar” (alle woorden zitten erin, + 2 diagonale)
+          puzzleReady = true;
+        }
+
+        // Als puzzleReady false blijft na 500x: we accepteren wel de laatst gegenereerde puzzle
+        // => Tenminste alle woorden zitten er *in*,
+        //    alleen wellicht geen 2 diagonale.
+
+        createGrid();
+        buildWordList();
+
+        introScreen.style.display = "none";
+        endScreen.style.display = "none";
+        gameScreen.style.display = "block";
+
+
+        startTimer();
+      }
+
+      function resetGame() {
+        stopTimer();
+        gameScreen.style.display = "none";
+        endScreen.style.display = "none";
+        introScreen.style.display = "block";
+      }
+
+      function endGame() {
+        stopTimer();
+        gameScreen.style.display = "none";
+        endScreen.style.display = "block";
+
+        const elapsedMs = Date.now() - startTime;
+        const seconds = Math.floor(elapsedMs / 1000);
+
+        endFoundWords.textContent = `${foundWords.size} / ${totalWordsCount}`;
+        endScore.textContent = score;
+        endTime.textContent = `${seconds} seconden`;
+        endMaxPoints.textContent = totalMaxPoints;
+      }
+
+      /* -------------------------------------------------------------
+         7) Event Listeners
+         ------------------------------------------------------------- */
+      startBtn.onclick = startGame;
+
+      hintBtn.onclick = () => {
+        if (hintsLeft <= 0) return;
+
+        // Kies een niet-gevonden woord
+        const remaining = Object.values(selectedWords).flat().filter(w => !foundWords.has(w));
+        if (!remaining.length) return;
+        const randomWord = remaining[Math.floor(Math.random() * remaining.length)];
+        const positions = wordPositionsMap[randomWord];
+        if (!positions) return;
+
+        // Highlight 1 letter
+        const unhighlighted = positions.filter(i => !cellElements[i].classList.contains("woordzoeker-highlight"));
+        if (unhighlighted.length) {
+          const rCell = unhighlighted[Math.floor(Math.random() * unhighlighted.length)];
+          cellElements[rCell].classList.add("woordzoeker-highlight", "woordzoeker-hint");
+        }
+
+        hintsLeft--;
+        score -= 5;
+        updateScore();
+        updateHintButton();
+        checkWords();
+      };
+
+      restartBtn.onclick = resetGame;
+      newGameBtn.onclick = resetGame;
+    })();
+  </script>
+</body>
+</html>
