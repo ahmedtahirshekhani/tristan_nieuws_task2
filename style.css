@@ -34,7 +34,7 @@ body {
   font-size: 32px;
   font-weight: 700;
   margin: 10px 0;
-  color: #ff4c4c;
+  color: #e0042c;
 }
 #woordzoeker-intro-screen p {
   color: #fff;
@@ -42,7 +42,7 @@ body {
 #woordzoeker-btn-start {
   padding: 14px 28px;
   font-size: 18px;
-  background: #ff4c4c;
+  background: #e0042c;
   border: none;
   color: #fff;
   border-radius: 10px;
@@ -51,7 +51,7 @@ body {
   margin-top: 20px;
 }
 #woordzoeker-btn-start:hover {
-  background: #e03131;
+  background: #cc3b3b;
   transform: scale(1.05);
 }
 
@@ -80,7 +80,7 @@ body {
   font-size: 32px;
   font-weight: 700;
   margin: 10px 0;
-  color: #ff4c4c;
+  color: #e0042c;
 }
 .woordzoeker-btn {
   border: none;
@@ -95,11 +95,11 @@ body {
   transform: scale(1.05);
 }
 #woordzoeker-hint-btn {
-  background: #ff4c4c;
+  background: #e0042c;
   color: #fff;
 }
 #woordzoeker-restart-btn {
-  background: #ff4c4c;
+  background: #e0042c;
   color: #fff;
   font-size: 16px;
   padding: 12px 20px;
@@ -145,16 +145,16 @@ body {
   background: #e0e0e0; /* Slightly darker on hover */
 }
 .woordzoeker-highlight {
-  background: red !important; /* Dark highlight */
+  background: #e0042c !important; /* Dark highlight */
   color: #fff !important; /* Light text for contrast */
 }
 .woordzoeker-hint {
-  box-shadow: 0 0 4px 2px red;
+  box-shadow: 0 0 4px 2px #e0042c;
   border-radius: 4px;
 }
 .woordzoeker-found {
   text-decoration: line-through;
-  color: #ff4c4c;
+  color: #e0042c;
 }
 /* .woordzoeker-word-list-container {
       min-width: 180px;
@@ -170,7 +170,7 @@ body {
   font-size: 15px;
 }
 .woordzoeker-word-list li b {
-  color: #ff4c4c;
+  color: #e0042c;
   font-weight: bold;
 }
 
@@ -200,12 +200,12 @@ body {
   text-align: left;
 }
 #woordzoeker-end-summary th {
-  background: #ff4c4c;
+  background: #e0042c;
   color: #fff;
   font-weight: bold;
 }
 #woordzoeker-btn-newgame {
-  background: #ff4c4c;
+  background: #e0042c;
   color: #fff;
   font-size: 18px;
   padding: 15px 30px;
@@ -219,7 +219,7 @@ body {
   margin-right: auto;
 }
 #woordzoeker-btn-newgame:hover {
-  background: #e03131;
+  background: #cc3b3b;
   transform: scale(1.05);
 }
 #logo {
@@ -230,6 +230,20 @@ body {
   top: 20px;
   left: 20px;
   justify-content: flex-start;
+}
+.quiz-title-img {
+  padding: 2%;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px auto;
+}
+.quiz-title-img-gamescreen {
+  padding: 2%;
+  display: block;
+  max-width: 50%;
+  height: auto;
+  margin: 0 auto 20px auto;
 }
 .quiz-title-line {
   width: 100px;
@@ -319,4 +333,64 @@ body {
 .woordzoeker-locked {
   background-color: #e03131;
   color: white; /* Make text white to stand out on dark blue */
+}
+
+.custom-cursor {
+  position: absolute;
+  width: 25px;  /* Size of the cursor */
+  height: 25px;
+  background-color: #e0042c;  /* Red background for the cursor */
+  border-radius: 50%;  /* Circular shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;  /* Prevents interference with interactions */
+  z-index: 10000; /* Ensure the cursor stays on top */
+  opacity: 0.8; /* Slight transparency */
+  transition: transform 0.2s ease;
+  font-size: 16px;
+  font-weight: bold;
+  color: white; /* Text color */
+  border: 2px solid #e0042c; /* Red border to indicate drag */
+}
+
+/* Tooltip style */
+.custom-tooltip {
+  position: absolute;
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  display: none;  /* Hidden by default */
+  pointer-events: none;  /* Prevents interference with interactions */
+  z-index: 10001;  /* Tooltip will appear above the cursor */
+  transition: opacity 0.2s ease;
+}
+
+/* Tooltip arrow */
+.custom-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.7);
+}
+
+/* Add a zoom effect when dragging over interactive elements */
+.custom-cursor.dragging {
+  animation: drag-animation 0.5s infinite alternate;
+}
+
+/* Animation to indicate dragging */
+@keyframes drag-animation {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.2) rotate(10deg);
+  }
 }
